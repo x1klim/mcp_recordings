@@ -1,4 +1,4 @@
-# MCP сервер для recorder.vless-vpn-v.com
+# MCP сервер для recorder
 
 ### Установка:
 
