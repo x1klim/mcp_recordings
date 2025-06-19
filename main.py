@@ -21,14 +21,13 @@ async def list_recordings(skip: int = 0, limit: int = 10, period: str = None) ->
     Args:
         skip: int - number of recordings to skip (default: 0)
         limit: int - number of recordings to return (default: 10)
-        period: str - period to filter recordings by (accepted values: "today", "yesterday", "this_week", "earlier", "not_today"), empty by default
     """
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{API_BASE_URL}/recordings",
                 headers={"X-API-Key": API_KEY},
-                params={"skip": skip, "limit": limit, "period": period}
+                params={"skip": skip, "limit": limit, "simplified": True}
             )
             return response.text
     except Exception as e:
@@ -41,6 +40,7 @@ async def get_recording(recording_id: str) -> str:
     Get a recording by its ID
 
     Hints:
+    - Try to use this tool not more than 7 times throughout one conversation
     - When creating a summary, refer to the diarized transcript
     - Use this guideline to create an effective summary:
         Goal: quickly get a transparent picture of the team's progress, identify blockers and deviations from the plan for decision-making.
@@ -60,7 +60,8 @@ async def get_recording(recording_id: str) -> str:
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{API_BASE_URL}/recordings/{recording_id}",
-                headers={"X-API-Key": API_KEY}
+                headers={"X-API-Key": API_KEY},
+                params={"simplified": True}
             )
             return response.text
     except Exception as e:
