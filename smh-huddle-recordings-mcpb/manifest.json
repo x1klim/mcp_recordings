@@ -1,0 +1,74 @@
+{
+  "dxt_version": "0.1",
+  "name": "SMH Записи хаддлов",
+  "version": "1.0.0",
+  "description": "Доступ ко всем записям хаддлов для анализа",
+  "author": {
+    "name": "Klim Korovkin",
+    "email": "klimkorovkin@yandex.ru",
+    "url": "https://github.com/x1klim"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "server/main.py",
+    "mcp_config": {
+      "command": "python3",
+      "args": ["${__dirname}/server/main.py"],
+      "env": {
+        "API_BASE_URL": "${user_config.api_base_url}",
+        "API_KEY": "${user_config.api_key}",
+        "DEBUG": "${user_config.debug}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list_recordings",
+      "description": "Получить список записей хаддлов с краткими содержаниями и списком участников"
+    },
+    {
+      "name": "get_recording",
+      "description": "Получить полную запись хаддла по его ID с транскрипцией, разделённой по говорящим"
+    }
+  ],
+  "tools_generated": false,
+  "user_config": {
+    "api_base_url": {
+      "type": "string",
+      "title": "API Base URL",
+      "description": "Ссылка на API рекордера (без слеша в конце)",
+      "required": true,
+      "sensitive": true
+    },
+    "api_key": {
+      "type": "string",
+      "title": "API Key",
+      "description": "API ключ рекордера",
+      "required": true,
+      "sensitive": true
+    },
+    "debug": {
+      "type": "boolean",
+      "title": "Дебаг",
+      "description": "Для разрабов, включает подробные логи",
+      "default": false,
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.9.0"
+    }
+  },
+  "license": "MIT",
+  "keywords": [
+    "recordings",
+    "huddle",
+    "meetings",
+    "transcripts",
+    "smh",
+    "analysis"
+  ]
+}

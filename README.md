@@ -1,27 +1,31 @@
-# MCP сервер для recorder
+# SMH Huddle Recordings - Claude Desktop Extension
 
-### Установка:
+This repository contains a Claude Desktop Extension (MCPB) for accessing SMH huddle recordings.
 
-1. Установите uv если он ещё не установлен:
-   ```shell
-   brew install uv
+## Quick Start
+
+### For Users
+
+Download the latest `smh-huddle-recordings.mcpb` file and install it in Claude Desktop through Settings → Extensions.
+
+### For Developers
+
+1. Navigate to the extension source:
+   ```bash
+   cd smh-huddle-recordings-mcpb
    ```
-2. Добавьте конфигурацию (змените `/ABSOLUTE/PATH/TO/PARENT/FOLDER/` на настоящий путь к папке):
-   ```json
-    "mcpServers": {
-      "SMH Huddle Recordings": {
-        "command": "uv",
-        "args": [
-          "--directory",
-          "/ABSOLUTE/PATH/TO/PARENT/FOLDER/mcp_recordings",
-          "run",
-          "main.py"
-        ],
-        "env": {
-          "API_BASE_URL": "ссылка_на_апи",
-          "API_KEY": "ключ_апи"
-        }
-      },
-      ...
-    }
+
+2. Build the extension:
+   ```bash
+   ./build.sh
    ```
+
+3. The MCPB file will be created in the parent directory.
+
+## Documentation
+
+See [smh-huddle-recordings-mcpb/README.md](smh-huddle-recordings-mcpb/README.md) for complete documentation.
+
+## License
+
+MIT

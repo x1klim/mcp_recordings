@@ -8,3 +8,30 @@ wheels/
 
 # Virtual environments
 .venv
+venv/
+ENV/
+env/
+
+# Dependencies
+server/vendor/
+smh-huddle-recordings-mcpb/server/vendor/
+server/libs/
+smh-huddle-recordings-mcpb/server/libs/
+
+# Built packages
+*.mcpb
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test_server.py
+smh-huddle-recordings-mcpb/test_server.py
