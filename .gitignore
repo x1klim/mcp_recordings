@@ -20,6 +20,7 @@ smh-huddle-recordings-mcpb/server/libs/
 
 # Built packages
 *.mcpb
+smh-huddle-recordings-*.mcpb
 
 # IDE files
 .vscode/

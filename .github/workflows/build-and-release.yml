@@ -1,0 +1,121 @@
+name: Build and Release MCPB
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Intel
+            os: macos-13
+            python-version: '3.11'
+            artifact-name: smh-huddle-recordings-macos-intel.mcpb
+
+          - name: macOS ARM64
+            os: macos-14
+            python-version: '3.11'
+            artifact-name: smh-huddle-recordings-macos-arm64.mcpb
+
+          - name: Windows x64
+            os: windows-latest
+            python-version: '3.11'
+            artifact-name: smh-huddle-recordings-windows-x64.mcpb
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
+
+      - name: Build MCPB package
+        run: python scripts/build.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.artifact-name }}
+          retention-days: 7
+
+  release:
+    name: Create Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+
+      - name: List artifacts
+        run: |
+          echo "Downloaded artifacts:"
+          ls -la artifacts/
+          find artifacts -name "*.mcpb" -type f
+
+      - name: Prepare release files
+        run: |
+          mkdir -p release-files
+          find artifacts -name "*.mcpb" -type f -exec cp {} release-files/ \;
+          ls -la release-files/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: release-files/*.mcpb
+          body: |
+            ## 📦 SMH Huddle Recordings Desktop Extension
+
+            ### Installation Instructions
+
+            1. **Download the appropriate file for your system:**
+               - 🖥️ **macOS Intel**: `smh-huddle-recordings-macos-intel.mcpb`
+               - 🍎 **macOS Apple Silicon (M1/M2/M3)**: `smh-huddle-recordings-macos-arm64.mcpb`
+               - 🪟 **Windows**: `smh-huddle-recordings-windows-x64.mcpb`
+
+            2. Open Claude Desktop
+            3. Go to Settings → Extensions
+            4. Click "Install Extension" and select the downloaded file
+            5. Configure your API credentials when prompted
+
+            ### How to Check Your Mac Type
+            1. Click Apple menu → About This Mac
+            2. Look for "Chip" or "Processor"
+               - If it says "Intel": Download the Intel version
+               - If it says "Apple M1/M2/M3": Download the ARM64 version
+
+            ### What's New
+            See the changelog below for details about this release.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

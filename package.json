@@ -1,0 +1,26 @@
+{
+  "name": "smh-huddle-recordings",
+  "version": "1.0.0",
+  "description": "SMH Huddle Recordings Desktop Extension for Claude",
+  "author": "Klim Korovkin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x1klim/mcp_recordings"
+  },
+  "scripts": {
+    "build": "python scripts/build.py",
+    "release": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags",
+    "preversion": "echo 'Preparing new version...'",
+    "postversion": "echo 'Version $npm_package_version created. Push to trigger release: git push --tags'"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "desktop-extension",
+    "recordings",
+    "huddle"
+  ]
+}
