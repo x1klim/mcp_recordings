@@ -25,7 +25,8 @@ def get_platform_suffix():
         else:
             return 'macos-intel'
     elif system == 'windows':
-        # Windows
+        # Windows (not currently supported)
+        print("Warning: Windows builds are not currently supported")
         return 'windows-x64'
     elif system == 'linux':
         # Linux (future support)

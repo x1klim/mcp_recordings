@@ -24,11 +24,6 @@ jobs:
             python-version: '3.11'
             artifact-name: smh-huddle-recordings-macos-arm64.mcpb
 
-          - name: Windows x64
-            os: windows-latest
-            python-version: '3.11'
-            artifact-name: smh-huddle-recordings-windows-x64.mcpb
-
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -99,10 +94,9 @@ jobs:
 
             ### Installation Instructions
 
-            1. **Download the appropriate file for your system:**
+            1. **Download the appropriate file for your Mac:**
                - 🖥️ **macOS Intel**: `smh-huddle-recordings-macos-intel.mcpb`
                - 🍎 **macOS Apple Silicon (M1/M2/M3)**: `smh-huddle-recordings-macos-arm64.mcpb`
-               - 🪟 **Windows**: `smh-huddle-recordings-windows-x64.mcpb`
 
             2. Open Claude Desktop
             3. Go to Settings → Extensions
